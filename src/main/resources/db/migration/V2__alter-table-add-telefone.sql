@@ -1,0 +1,1 @@
+alter table cad_medico add telefone varchar(20);
