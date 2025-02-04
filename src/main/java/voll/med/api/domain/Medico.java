@@ -1,17 +1,21 @@
-package voll.med.api.medico;
+package voll.med.api.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import voll.med.api.endereco.Endereco;
+import lombok.Setter;
+import voll.med.api.dto.DadosAtualizacaoMedico;
+import voll.med.api.dto.DadosCadastroMedico;
+import voll.med.api.domain.enu.Especialidades;
 
 @Table(name="cad_medico")
 @Entity(name="Medico")
-@Getter
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class Medico {
 
     @Id
@@ -33,70 +37,13 @@ public class Medico {
     public Medico() {}
 
     public Medico(DadosCadastroMedico dadosMedico) {
-        this.ativo = 1;
         this.nome = dadosMedico.nome();
         this.email = dadosMedico.email();
         this.telefone = dadosMedico.telefone();
         this.crm = dadosMedico.crm();
         this.especialidade = dadosMedico.especialidade();
+        this.ativo = 1;
         this.endereco = new Endereco(dadosMedico.endereco());
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public Integer getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Integer ativo) {
-        this.ativo = ativo;
-    }
-
-    public String getCrm() {
-        return crm;
-    }
-
-    public void setCrm(String crm) {
-        this.crm = crm;
-    }
-
-    public Especialidades getEspecialidade() {
-        return especialidade;
-    }
-
-    public void setEspecialidade(Especialidades especialidade) {
-        this.especialidade = especialidade;
     }
 
     public void atualizarInformacoes(@Valid DadosAtualizacaoMedico dados) {
@@ -114,6 +61,7 @@ public class Medico {
             this.endereco.atualizarEndereco(dados.endereco());
     }
 
+    // 0 - inativo; 1 - ativo
     public void excluir() {
         this.ativo = 0;
     }
